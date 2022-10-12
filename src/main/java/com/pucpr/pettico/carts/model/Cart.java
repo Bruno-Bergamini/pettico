@@ -1,4 +1,4 @@
-package com.pucpr.pettico.products.carts.model;
+package com.pucpr.pettico.carts.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

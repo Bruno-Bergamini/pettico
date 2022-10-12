@@ -1,7 +1,7 @@
-package com.pucpr.pettico.products.carts.controller;
+package com.pucpr.pettico.carts.controller;
 
-import com.pucpr.pettico.products.carts.model.Cart;
-import com.pucpr.pettico.products.carts.service.CartService;
+import com.pucpr.pettico.carts.model.Cart;
+import com.pucpr.pettico.carts.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

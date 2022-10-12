@@ -1,6 +1,6 @@
-package com.pucpr.pettico.products.carts.service;
-import com.pucpr.pettico.products.carts.model.Cart;
-import com.pucpr.pettico.products.carts.repository.CartRepository;
+package com.pucpr.pettico.carts.service;
+import com.pucpr.pettico.carts.model.Cart;
+import com.pucpr.pettico.carts.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
