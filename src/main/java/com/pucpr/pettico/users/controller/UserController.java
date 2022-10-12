@@ -1,7 +1,7 @@
-package com.pucpr.pettico.products.controller;
+package com.pucpr.pettico.users.controller;
 
-import com.pucpr.pettico.products.model.User;
-import com.pucpr.pettico.products.service.UserService;
+import com.pucpr.pettico.users.model.User;
+import com.pucpr.pettico.users.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,5 +31,10 @@ public class UserController {
     @GetMapping("/{id}")
     public User findById(@PathVariable("id") Integer id) {
         return userService.findById(id);
+    }
+
+    @GetMapping("/{id}")
+    public void delete(@PathVariable("id") Integer id) {
+        userService.delete(id);
     }
 }

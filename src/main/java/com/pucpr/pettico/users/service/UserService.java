@@ -1,7 +1,7 @@
-package com.pucpr.pettico.products.service;
+package com.pucpr.pettico.users.service;
 
-import com.pucpr.pettico.products.model.User;
-import com.pucpr.pettico.products.repository.UserRepository;
+import com.pucpr.pettico.users.model.User;
+import com.pucpr.pettico.users.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +27,10 @@ public class UserService {
 
     public User findById(Integer id) {
         return userRepository.findById(id).get();
+    }
+
+    public void delete(Integer id) {
+        userRepository.delete(findById(id));
     }
 
 }

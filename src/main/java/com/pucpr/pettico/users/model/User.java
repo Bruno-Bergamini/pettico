@@ -1,4 +1,4 @@
-package com.pucpr.pettico.products.model;
+package com.pucpr.pettico.users.model;
 
 import javax.persistence.*;
 
