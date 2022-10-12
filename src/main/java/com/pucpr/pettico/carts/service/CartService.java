@@ -31,5 +31,4 @@ public class CartService {
     public void delete(Integer id) {
         cartRepository.delete(findById(id));
     }
-
 }
