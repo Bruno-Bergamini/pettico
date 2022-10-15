@@ -16,8 +16,8 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public Product save(Product veiculo) {
-        return productRepository.save(veiculo);
+    public Product save(Product product) {
+        return productRepository.save(product);
     }
 
     public List<Product> find() {

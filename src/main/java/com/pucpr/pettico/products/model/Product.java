@@ -1,5 +1,6 @@
 package com.pucpr.pettico.products.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pucpr.pettico.products.ProductCategories;
 
 import javax.persistence.Entity;

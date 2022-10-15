@@ -1,14 +1,11 @@
-package com.pucpr.pettico.carts.model;
+package com.pucpr.pettico.product_cart.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "carts")
-public class Cart {
+@Table(name = "product_cart")
+public class ProductCart {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
