@@ -25,11 +25,21 @@ public class ProductService {
     }
 
     public Product findById(Integer id) {
-        return productRepository.findById(id).get();
+        try {
+            return productRepository.findById(id).get();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public void delete(Integer id) {
         productRepository.delete(findById(id));
     }
+
+    public boolean exists(Integer productId) {
+        return productRepository.existsById(productId);
+    }
+
+
 
 }

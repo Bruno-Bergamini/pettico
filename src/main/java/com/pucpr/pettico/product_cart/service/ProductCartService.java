@@ -2,7 +2,6 @@ package com.pucpr.pettico.product_cart.service;
 
 import com.pucpr.pettico.product_cart.model.ProductCart;
 import com.pucpr.pettico.product_cart.repository.ProductCartRepository;
-import com.pucpr.pettico.products.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;

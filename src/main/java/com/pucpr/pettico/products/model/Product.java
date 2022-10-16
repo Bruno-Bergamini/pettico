@@ -14,9 +14,11 @@ import javax.persistence.Table;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private Integer id;
     private String name;
     private Float price;
+    private Integer stock;
 
     public String getName() {
         return name;
@@ -42,13 +44,18 @@ public class Product {
         this.category = category;
     }
 
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
     private ProductCategories category;
 
     public Integer getId() {
         return id;
-    }
-    public void setId(Integer id) {
-        this.id = id;
     }
 
 }

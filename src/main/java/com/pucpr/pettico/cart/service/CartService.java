@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Stream;
 
 @Service
 public class CartService {
@@ -22,12 +20,12 @@ public class CartService {
         this.productCartRepository = productCartRepository;
     }
 
-    public void addProductToCart(Integer productId, Integer quantity, Integer userId) {
+    public ProductCart addProductToCart(Integer productId, Integer quantity, Integer userId) {
         ProductCart productCart = new ProductCart();
         productCart.setProductId(productId);
         productCart.setQuantity(quantity);
         productCart.setUserId(userId);
-        productCartRepository.save(productCart);
+        return productCartRepository.save(productCart);
     }
 
     public void removeProductFromCart() {
