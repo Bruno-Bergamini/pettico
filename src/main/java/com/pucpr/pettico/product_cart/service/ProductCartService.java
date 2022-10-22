@@ -3,9 +3,11 @@ package com.pucpr.pettico.product_cart.service;
 import com.pucpr.pettico.product_cart.model.ProductCart;
 import com.pucpr.pettico.product_cart.repository.ProductCartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ProductCartService {
     @Autowired
     final ProductCartRepository productCartRepository;
