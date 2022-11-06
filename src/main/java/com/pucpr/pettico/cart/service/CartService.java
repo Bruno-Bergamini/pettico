@@ -2,7 +2,7 @@ package com.pucpr.pettico.cart.service;
 
 import com.pucpr.pettico.product_cart.model.ProductCart;
 import com.pucpr.pettico.product_cart.repository.ProductCartRepository;
-import com.pucpr.pettico.products.repository.ProductRepository;
+import com.pucpr.pettico.product.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,8 +36,8 @@ public class CartService {
         return productCartRepository.findByUserId(userId);
     }
 
-    public void purchaseAllProducts() {
-
+    public List<ProductCart> getAll() {
+        return productCartRepository.findAll();
     }
 
 

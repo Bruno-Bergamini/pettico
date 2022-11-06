@@ -1,36 +1,53 @@
 package com.pucpr.pettico.purchase_product.service;
 
+import com.pucpr.pettico.purchase.model.Purchase;
+import com.pucpr.pettico.purchase.repository.PurchaseRepository;
 import com.pucpr.pettico.purchase_product.model.PurchaseProduct;
 import com.pucpr.pettico.purchase_product.repository.PurchaseProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PurchaseProductService {
 
     @Autowired
-    final PurchaseProductRepository purchaseRepository;
+    final PurchaseProductRepository purchaseProductRepository;
+    final PurchaseRepository purchaseRepository;
 
-    public PurchaseProductService(PurchaseProductRepository purchaseRepository) {
+    public PurchaseProductService(PurchaseProductRepository purchaseProductRepository, PurchaseRepository purchaseRepository) {
+        this.purchaseProductRepository = purchaseProductRepository;
         this.purchaseRepository = purchaseRepository;
     }
 
     public PurchaseProduct save(PurchaseProduct purchase) {
-        return purchaseRepository.save(purchase);
+        return purchaseProductRepository.save(purchase);
     }
 
     public List<PurchaseProduct> find() {
-        return purchaseRepository.findAll();
+        return purchaseProductRepository.findAll();
     }
 
     public PurchaseProduct findById(Integer id) {
-        return purchaseRepository.findById(id).get();
+        return purchaseProductRepository.findById(id).get();
+    }
+
+    public List<PurchaseProduct> findByUserId(Integer userId) {
+        Optional<Purchase> optionalPurchase = purchaseRepository.findAll().stream().filter(purchase -> userId.equals(purchase.getUserId())).findFirst();
+
+        if (!optionalPurchase.isPresent()) {
+            return null;
+        }
+
+        Integer purchaseId = optionalPurchase.get().getId();
+        return find().stream().filter(purchaseProduct -> purchaseId.equals(purchaseProduct.getPurchaseId())).collect(Collectors.toList());
     }
 
     public void delete(Integer id) {
-        purchaseRepository.delete(findById(id));
+        purchaseProductRepository.delete(findById(id));
     }
 
 }

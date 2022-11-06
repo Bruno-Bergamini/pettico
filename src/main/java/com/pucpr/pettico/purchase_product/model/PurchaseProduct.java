@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 
 @Entity
-@Table (name = "purchases_products")
+@Table(name = "purchase_product")
 public class PurchaseProduct {
 
     @Id
@@ -13,6 +13,7 @@ public class PurchaseProduct {
     private Integer purchaseId;
     private Integer productId;
     private Integer quantity;
+    private Float totalPrice;
 
     public Integer getId() {
         return id;
@@ -44,5 +45,13 @@ public class PurchaseProduct {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public Float getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Float totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }
