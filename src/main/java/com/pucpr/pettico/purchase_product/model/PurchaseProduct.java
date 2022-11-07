@@ -54,4 +54,13 @@ public class PurchaseProduct {
     public void setTotalPrice(Float totalPrice) {
         this.totalPrice = totalPrice;
     }
+
+    public PurchaseProduct(Integer purchaseId, Integer productId, Integer quantity, Float totalPrice) {
+        this.purchaseId = purchaseId;
+        this.productId = productId;
+        this.quantity = quantity;
+        this.totalPrice = totalPrice;
+    }
+
+    public PurchaseProduct() {}
 }

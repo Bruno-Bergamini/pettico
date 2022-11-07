@@ -37,4 +37,11 @@ public class Purchase {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    public Purchase(Integer userId, Date date) {
+        this.userId = userId;
+        this.date = date;
+    }
+
+    public Purchase() {}
 }

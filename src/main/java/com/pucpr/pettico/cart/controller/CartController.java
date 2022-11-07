@@ -72,11 +72,7 @@ public class CartController {
             }
         }
 
-        ProductCart productCart = new ProductCart();
-        productCart.setUserId(userId);
-        productCart.setProductId(productId);
-        productCart.setQuantity(quantity);
-        productCartService.save(productCart);
+        productCartService.save(new ProductCart(userId, productId, quantity));
         return ResponseEntity.ok("Product has been added to cart");
     }
 
@@ -85,20 +81,17 @@ public class CartController {
         Integer productId = addBody.getProductId();
         Integer quantity = addBody.getQuantity();
 
-        List<ProductCart> productCartList = productCartService.findByUserId(userId);
-        for (ProductCart productCart : productCartList) {
-            if (!productId.equals(productCart.getProductId())) {
-                continue;
-            }
+        ProductCart productCart = findProductInCart(productId, userId);
 
-            if (quantity != null && quantity < productCart.getQuantity()) {
-                productCart.setQuantity(productCart.getQuantity() - quantity);
-                productCartService.save(productCart);
-                break;
-            }
+        if (productCart == null) {
+            return ResponseEntity.status(404).body("Product was not found on this user's cart..");
+        }
 
+        if (quantity != null && quantity < productCart.getQuantity()) {
+            productCart.setQuantity(productCart.getQuantity() - quantity);
+            productCartService.save(productCart);
+        } else {
             productCartService.delete(productCart.getId());
-            break;
         }
 
         return ResponseEntity.ok("Product has been removed from cart");
@@ -107,18 +100,39 @@ public class CartController {
     @PostMapping("buy")
     public ResponseEntity<String> buyProduct(@RequestBody AddBody addBody, @RequestParam Integer userId) {
         Integer productId = addBody.getProductId();
-        Integer quantity = addBody.getQuantity();
 
-        List<ProductCart> productCartList = productCartService.findByUserId(userId);
-        for (ProductCart productCart : productCartList) {
-            if (!productId.equals(productCart.getProductId())) {
-                continue;
-            }
+        ProductCart productCart = findProductInCart(productId, userId);
 
-            // todo
+        if (productCart == null) {
+            return ResponseEntity.status(404).body("Product was not found on this user's cart..");
         }
 
+        Product product = productService.findById(productCart.getProductId());
+
+        Purchase purchase = new Purchase(userId, new Date());
+        purchase = purchaseService.save(purchase);
+
+        Integer purchaseId = purchase.getId();
+        Integer quantity = productCart.getQuantity();
+        Float totalPrice = product.getPrice() * productCart.getQuantity();
+        purchaseProductService.save(new PurchaseProduct(purchaseId, productId, quantity, totalPrice));
+
+        product.setStock(product.getStock() - quantity);
+        productService.save(product);
+
+        productCartService.delete(productCart.getId());
+
         return ResponseEntity.ok("Product has been removed from cart");
+    }
+
+    private ProductCart findProductInCart(Integer productId, Integer userId) {
+        List<ProductCart> productCartList = productCartService.findByUserId(userId);
+        for (ProductCart productCart : productCartList) {
+            if (productId.equals(productCart.getProductId())) {
+                return productCart;
+            }
+        }
+        return null;
     }
 
     @GetMapping
@@ -133,7 +147,7 @@ public class CartController {
         Float totalPrice = 0f;
 
         for (ProductCart productCart : productCartList) {
-            totalPrice += productService.findById(productCart.getProductId()).getPrice();
+            totalPrice += productService.findById(productCart.getProductId()).getPrice() * productCart.getQuantity();
         }
 
         return totalPrice;
@@ -143,26 +157,23 @@ public class CartController {
     public ResponseEntity buyAllProductsInCart(@RequestParam Integer userId) {
         List<ProductCart> productCartList = productCartService.findByUserId(userId);
 
-        Purchase purchase = new Purchase();
-        purchase.setUserId(userId);
-        purchase.setDate(new Date(System.currentTimeMillis()));
+        Purchase purchase = new Purchase(userId, new Date());
         purchase = purchaseService.save(purchase);
 
         for (ProductCart productCart : productCartList) {
             Product product = productService.findById(productCart.getProductId());
 
             if (product.getStock() < productCart.getQuantity()) {
-                return ResponseEntity.status(500).body("Could not finish purchase, product: '" + product.getName() + "' is out of stock.");
+                return ResponseEntity.status(500).body("Product: '" + product.getName() + "' is out of stock.");
             }
 
-            PurchaseProduct purchaseProduct = new PurchaseProduct();
-            purchaseProduct.setPurchaseId(purchase.getId());
-            purchaseProduct.setProductId(product.getId());
-            purchaseProduct.setQuantity(productCart.getQuantity());
-            purchaseProduct.setTotalPrice(product.getPrice() * productCart.getQuantity());
-            purchaseProductService.save(purchaseProduct);
+            Integer purchaseId = purchase.getId();
+            Integer productId = product.getId();
+            Integer quantity = productCart.getQuantity();
+            Float totalPrice = product.getPrice() * productCart.getQuantity();
+            purchaseProductService.save(new PurchaseProduct(purchaseId, productId, quantity, totalPrice));
 
-            product.setStock(product.getStock() - purchaseProduct.getQuantity());
+            product.setStock(product.getStock() - quantity);
             productService.save(product);
 
             productCartService.delete(productCart.getId());

@@ -44,4 +44,12 @@ public class ProductCart {
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
+
+    public ProductCart(Integer userId, Integer productId, Integer quantity) {
+        this.userId = userId;
+        this.productId = productId;
+        this.quantity = quantity;
+    }
+
+    public ProductCart() {}
 }

@@ -29,8 +29,4 @@ public class PurchaseService {
         return purchaseRepository.findById(id).get();
     }
 
-    public void delete(Integer id) {
-        purchaseRepository.delete(findById(id));
-    }
-
 }

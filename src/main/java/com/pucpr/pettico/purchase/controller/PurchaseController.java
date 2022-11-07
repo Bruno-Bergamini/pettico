@@ -32,20 +32,14 @@ public class PurchaseController {
         return purchaseService.find();
     }
 
-    @GetMapping("purchasedProducts")
-    public List<PurchaseProduct> getAllPurchasedProducts(@RequestParam Integer userId){
-        return purchaseProductService.findByUserId(userId);
+    @GetMapping("/{id}/purchasedProducts")
+    public List<PurchaseProduct> getAllPurchasedProducts(@PathVariable("id") Integer id){
+        return purchaseProductService.findByPurchaseId(id);
     }
 
     @GetMapping("/{id}")
     public Purchase findById(@PathVariable("id") Integer id) {
         return purchaseService.findById(id);
     }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Integer id) {
-        purchaseService.delete(id);
-    }
-
 
 }

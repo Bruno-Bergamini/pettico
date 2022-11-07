@@ -35,14 +35,7 @@ public class PurchaseProductService {
         return purchaseProductRepository.findById(id).get();
     }
 
-    public List<PurchaseProduct> findByUserId(Integer userId) {
-        Optional<Purchase> optionalPurchase = purchaseRepository.findAll().stream().filter(purchase -> userId.equals(purchase.getUserId())).findFirst();
-
-        if (!optionalPurchase.isPresent()) {
-            return null;
-        }
-
-        Integer purchaseId = optionalPurchase.get().getId();
+    public List<PurchaseProduct> findByPurchaseId(Integer purchaseId) {
         return find().stream().filter(purchaseProduct -> purchaseId.equals(purchaseProduct.getPurchaseId())).collect(Collectors.toList());
     }
 
